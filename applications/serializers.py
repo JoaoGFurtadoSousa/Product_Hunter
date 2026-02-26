@@ -5,4 +5,4 @@ from .models import APP
 class APPSerializer(serializers.ModelSerializer):
     class Meta:
         model = APP
-        fields = '__all__'
+        fields = ('name', 'description', 'hashtags',)
