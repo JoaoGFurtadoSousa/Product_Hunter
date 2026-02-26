@@ -1,15 +1,16 @@
-
 from rest_framework.views import APIView
 from .serializers import APPSerializer
 from rest_framework.response import Response
 from rest_framework import status
 from .models import APP
 from django.shortcuts import get_object_or_404
+from rest_framework.permissions import IsAuthenticated
 # Create your views here.
 
 
 
 class APPView(APIView):
+    permission_classes = [IsAuthenticated, ]
     def get_object(self, pk: int):
       app = get_object_or_404(APP, pk = pk)
 
@@ -38,5 +39,10 @@ class APPView(APIView):
         app.save()
         return Response({"sucess":"App altered"}, status= status.HTTP_200_OK)
     
-    
+    def delete(self, request, pk: int):
+        self.permission_classes = ['IsAuthenticated', ]
+        app = APP.objects.filter(id = pk)
+        app.delete()
+        return Response({'sucess': 'App deleted'}, status=status.HTTP_200_OK)
+
 
