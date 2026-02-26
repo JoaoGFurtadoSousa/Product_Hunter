@@ -26,7 +26,6 @@ class RegisterUser(APIView):
         password = request.data.get('password')
 
         if User.objects.filter(Q(email = email) | Q(username = username)).exists():
-            print('entrou aqui')
             return Response({"error": "User already exists"}, status=status.HTTP_409_CONFLICT)
         User.objects.create_user(username= username, email= email, password= password)
         return Response({"sucess": "Create User"}, status=status.HTTP_201_CREATED)
