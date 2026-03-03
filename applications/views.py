@@ -11,8 +11,6 @@ from rest_framework.permissions import IsAuthenticated
 
 class APPView(APIView):
     permission_classes = [IsAuthenticated, ]
-    def get_object(self, pk: int):
-      app = get_object_or_404(APP, pk = pk)
 
 
     def post(self, request):
@@ -24,7 +22,7 @@ class APPView(APIView):
     
     def get(self, request):
         try:
-            return_all_apps = APP.objects.all()
+            return_all_apps = APP.objects.order_by('-likes')
             apps = APPSerializer(return_all_apps, many =  True).data
             return Response(apps, status= status.HTTP_200_OK)
         except:
@@ -40,9 +38,13 @@ class APPView(APIView):
         return Response({"sucess":"App altered"}, status= status.HTTP_200_OK)
     
     def delete(self, request, pk: int):
-        self.permission_classes = ['IsAuthenticated', ]
         app = APP.objects.filter(id = pk)
         app.delete()
         return Response({'sucess': 'App deleted'}, status=status.HTTP_200_OK)
 
+class LikeView(APIView):
+    permission_classes = [IsAuthenticated, ]
 
+    def put(self, request, pk: int):
+        app = get_object_or_404(id= pk)
+        
