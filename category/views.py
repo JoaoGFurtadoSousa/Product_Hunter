@@ -1,15 +1,22 @@
 from rest_framework.views import APIView
 from .models import Category
+from applications.models import APP
 from rest_framework.permissions import IsAuthenticated
+from django.shortcuts import get_object_or_404
 from rest_framework.response import Response
 from rest_framework.status import HTTP_201_CREATED, HTTP_400_BAD_REQUEST, HTTP_200_OK, HTTP_404_NOT_FOUND
 from .serializers import CategorySerializer
-# Create your views here.
+from applications.serializers import APPSerializer
+
 
 class CategoryView(APIView):
     permission_classes = [IsAuthenticated, ]
 
-    def get(self, request):
+
+    def get(self, request, pk=None):
+        if pk:
+            apps = APP.objects.filter(category = pk)
+            return Response(APPSerializer(apps, many = True).data,  status= HTTP_200_OK)
         categorys = Category.objects.all()
         data_category = CategorySerializer(categorys, many = True)
         return Response(data_category.data)
@@ -25,11 +32,15 @@ class CategoryView(APIView):
     def put(self, request, pk):
         data_request = CategorySerializer(data= request.data)
         if data_request.is_valid():
-            category = Category.objects.get(id = pk)
-            if not category:
-                return Response({"error": "Category not found"}, status= HTTP_404_NOT_FOUND)
+            category = get_object_or_404(Category, id = pk)
             category.name = data_request.validated_data['name']
             category.save()
             return Response({"sucess":"Category altered"}, status= HTTP_200_OK)
+        
+    def delete(self, request, pk):
+            category = Category.objects.get(id = pk)
+            category = get_object_or_404(Category, id = pk)
+            category.delete()
+            return Response({"sucess":"Category excluded"}, status= HTTP_200_OK)
     
 
