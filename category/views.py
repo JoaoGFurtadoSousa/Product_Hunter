@@ -15,8 +15,8 @@ class CategoryView(APIView):
 
     def get(self, request, pk=None):
         if pk:
-            apps = APP.objects.filter(category = pk)
-            return Response(APPSerializer(apps, many = True).data,  status= HTTP_200_OK)
+            category = Category.objects.get(id = pk)
+            return Response(APPSerializer(category).data,  status= HTTP_200_OK)
         categorys = Category.objects.all()
         data_category = CategorySerializer(categorys, many = True)
         return Response(data_category.data)
@@ -44,3 +44,11 @@ class CategoryView(APIView):
             return Response({"sucess":"Category excluded"}, status= HTTP_200_OK)
     
 
+class ReturnAPPsOfCategory(APIView):
+     permission_classes = [IsAuthenticated, ]
+
+     def get(self, request, pk):
+          apps = APP.objects.filter(category = pk)
+          return Response(APPSerializer(apps, many = True).data, status= HTTP_200_OK)
+          
+          
