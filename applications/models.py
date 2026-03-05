@@ -10,5 +10,11 @@ class APP(models.Model):
     hashtags = models.ManyToManyField(Hashtags)
     category = models.ForeignKey(Category, on_delete= models.SET_DEFAULT, default= 1)
     
+
+    class Meta:
+        indexes = [
+            models.Index(fields= ['name', 'description']),
+        ]
+
     def __str__(self):
         return self.name

@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'applications',
     'hashtags',
     'category',
+    'votes',
     'rest_framework',
     'corsheaders',
 ]
