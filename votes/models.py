@@ -4,10 +4,9 @@ from applications.models import APP
 
 
 class Vote(models.Model):
-    user = models.ForeignKey(User, on_delete= models.CASCADE)
+    users = models.ManyToManyField(User)
     app = models.ForeignKey(APP, on_delete= models.CASCADE)
     createdAt = models.DateTimeField(auto_now_add= True)
     updateAt = models.DateTimeField(auto_now= True)
 
-    def __str__(self):
-        return self.id
+    

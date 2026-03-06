@@ -2,6 +2,7 @@ from django.db import models
 from hashtags.models import Hashtags
 from category.models import Category
 
+
 class APP(models.Model):
     name = models.CharField(max_length= 60)
     description = models.CharField(max_length= 300)

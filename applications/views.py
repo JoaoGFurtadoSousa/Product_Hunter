@@ -5,7 +5,7 @@ from rest_framework import status
 from .models import APP
 from django.shortcuts import get_object_or_404
 from rest_framework.permissions import IsAuthenticated
-# Create your views here.
+from votes.models import Vote
 
 
 
@@ -29,7 +29,7 @@ class APPView(APIView):
             return Response({'error': 'Internal error'}, status= status.HTTP_500_INTERNAL_SERVER_ERROR)
 
     def put(self, request, pk:int):
-        app = self.get_object(pk = pk)  
+        app = get_object_or_404(APP, id = pk)
         app.name = request.data.get('name')
         app.description = request.data.get('description')
         app.logo_app = request.data.get('logo_app')
@@ -42,9 +42,15 @@ class APPView(APIView):
         app.delete()
         return Response({'sucess': 'App deleted'}, status=status.HTTP_200_OK)
 
-class LikeView(APIView):
-    permission_classes = [IsAuthenticated, ]
+class SearchAPPForName(APIView):
+    #permission_classes = [IsAuthenticated, ]
 
-    def put(self, request, pk: int):
-        app = get_object_or_404(id= pk)
+    def get(self, request):
+        app_search = request.query_params.get('search_app')
+        if not app_search:
+            return Response({"error": "Parameters cannot be empty"}, status= status.HTTP_400_BAD_REQUEST)
+        search_app_in_db = get_object_or_404(APP, name = app_search)
+        return Response(APPSerializer(search_app_in_db).data, status= status.HTTP_200_OK)
+        
+
         
