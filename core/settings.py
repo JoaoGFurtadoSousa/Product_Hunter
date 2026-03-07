@@ -127,6 +127,11 @@ REST_FRAMEWORK = {
     'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
 }
 
+SIMPLE_JWT = {
+    "ACCESS_TOKEN_LIFETIME": timedelta(minutes= 30),
+    "REFRESH_TOKEN_LIFETIME": timedelta(days= 1)
+}
+
 # Internationalization
 # https://docs.djangoproject.com/en/5.2/topics/i18n/
 
@@ -156,7 +161,4 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
-SIMPLE_JWT = {
-    "ACESS_TOKEN_LIFETIME": timedelta(minutes= 30),
-    "REFRESH_TOKEN_LIFETIME": timedelta(days= 1)
-}
+
