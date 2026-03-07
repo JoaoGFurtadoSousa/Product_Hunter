@@ -1,16 +1,15 @@
 from rest_framework.views import APIView
+from .models import APP
 from .serializers import APPSerializer
 from rest_framework.response import Response
 from rest_framework import status
-from .models import APP
+from django.core.paginator import Paginator
 from django.shortcuts import get_object_or_404
 from rest_framework.permissions import IsAuthenticated
-from votes.models import Vote
-
-
+from rest_framework.pagination import PageNumberPagination
 
 class APPView(APIView):
-    permission_classes = [IsAuthenticated, ]
+    #permission_classes = [IsAuthenticated, ]
 
 
     def post(self, request):
@@ -23,8 +22,11 @@ class APPView(APIView):
     def get(self, request):
         try:
             return_all_apps = APP.objects.order_by('-likes')
-            apps = APPSerializer(return_all_apps, many =  True).data
-            return Response(apps, status= status.HTTP_200_OK)
+            paginator = PageNumberPagination()
+            paginator.page_size = 10
+            result_paginator = paginator.paginate_queryset(return_all_apps, request)
+            apps = APPSerializer(result_paginator, many =  True).data
+            return paginator.get_paginated_response(apps)
         except:
             return Response({'error': 'Internal error'}, status= status.HTTP_500_INTERNAL_SERVER_ERROR)
 
@@ -43,14 +45,16 @@ class APPView(APIView):
         return Response({'sucess': 'App deleted'}, status=status.HTTP_200_OK)
 
 class SearchAPPForName(APIView):
-    #permission_classes = [IsAuthenticated, ]
+    permission_classes = [IsAuthenticated, ]
 
     def get(self, request):
         app_search = request.query_params.get('search_app')
         if not app_search:
             return Response({"error": "Parameters cannot be empty"}, status= status.HTTP_400_BAD_REQUEST)
-        search_app_in_db = get_object_or_404(APP, name = app_search)
-        return Response(APPSerializer(search_app_in_db).data, status= status.HTTP_200_OK)
+        search_app_in_db =APP.objects.filter(name__icontains = app_search)
+        if not search_app_in_db:
+            return Response({"error": "APP not found"}, status= status.HTTP_404_NOT_FOUND)
+        return Response(APPSerializer(search_app_in_db, many = True).data, status= status.HTTP_200_OK)
         
 
         
