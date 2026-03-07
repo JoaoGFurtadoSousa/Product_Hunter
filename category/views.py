@@ -12,7 +12,6 @@ from applications.serializers import APPSerializer
 class CategoryView(APIView):
     permission_classes = [IsAuthenticated, ]
 
-
     def get(self, request, pk=None):
         if pk:
             category = Category.objects.get(id = pk)
