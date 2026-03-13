@@ -160,5 +160,6 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-
+CELERY_BROKER_URL = 'pyamqp://guest@localhost//'
+CELERY_TIMEZONE = 'America/Sao_Paulo'
 
