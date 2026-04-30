@@ -5,6 +5,8 @@ from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework.views import APIView
 from rest_framework import status
 from django.db.models import Q
+from django.core.mail import send_mail
+
 
 class Login_User(APIView):
     def post(self, request):
@@ -29,3 +31,4 @@ class RegisterUser(APIView):
             return Response({"error": "User already exists"}, status=status.HTTP_409_CONFLICT)
         User.objects.create_user(username= username, email= email, password= password)
         return Response({"sucess": "Create User"}, status=status.HTTP_201_CREATED)
+    
