@@ -7,7 +7,7 @@ from category.models import Category
 class APP(models.Model):
     name = models.CharField(max_length= 60)
     description = models.CharField(max_length= 300)
-    likes = models.IntegerField(validators= [MinValueValidator(1)])
+    likes = models.IntegerField(validators= [MinValueValidator(1)], default=0)
     logo_app = models.ImageField(upload_to='media')
     hashtags = models.ManyToManyField(Hashtags)
     category = models.ForeignKey(Category, on_delete= models.SET_DEFAULT, default= 1)

@@ -60,6 +60,7 @@ class SearchAPPForName(APIView):
     
 
 class ReturnAppRecentlyView(APIView):
+    permission_classes = [IsAuthenticated, ]
     
 
     def get(self, request):
