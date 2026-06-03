@@ -5,5 +5,7 @@ from .tasks import talk_gemini_for_write_description
 
 
 @receiver(post_save, sender = APP)
-def post_save_app(sender, instance, **kwargs):
-   talk_gemini_for_write_description.delay(instance.id)
+def post_save_app(sender, instance, created, **kwargs):
+   if created:
+      print(f"Enfileirando APP {instance.id}")
+      talk_gemini_for_write_description.delay(instance.id)

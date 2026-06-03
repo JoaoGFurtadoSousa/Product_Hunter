@@ -11,12 +11,13 @@ class APP(models.Model):
     logo_app = models.ImageField(upload_to='media')
     hashtags = models.ManyToManyField(Hashtags)
     category = models.ForeignKey(Category, on_delete= models.SET_DEFAULT, default= 1)
-    
+    data_created = models.DateTimeField(auto_now=True)
 
     class Meta:
         indexes = [
             models.Index(fields= ['name', 'description']),
         ]
+    
 
     def __str__(self):
         return self.name

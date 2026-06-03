@@ -43,6 +43,8 @@ class APPView(APIView):
         app = APP.objects.filter(id = pk)
         app.delete()
         return Response({'sucess': 'App deleted'}, status=status.HTTP_200_OK)
+    
+
 
 class SearchAPPForName(APIView):
     permission_classes = [IsAuthenticated, ]
@@ -55,6 +57,14 @@ class SearchAPPForName(APIView):
         if not search_app_in_db:
             return Response({"error": "APP not found"}, status= status.HTTP_404_NOT_FOUND)
         return Response(APPSerializer(search_app_in_db, many = True).data, status= status.HTTP_200_OK)
+    
+
+class ReturnAppRecentlyView(APIView):
+    
+
+    def get(self, request):
+        apps_order_by_recently = APP.objects.order_by('-data_created')
+        return Response(APPSerializer(apps_order_by_recently, many=True).data, status=status.HTTP_200_OK)
         
 
         
