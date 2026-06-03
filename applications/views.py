@@ -63,7 +63,7 @@ class ReturnAppRecentlyView(APIView):
     
 
     def get(self, request):
-        apps_order_by_recently = APP.objects.order_by('-data_created')
+        apps_order_by_recently = APP.objects.order_by('-date_created')
         return Response(APPSerializer(apps_order_by_recently, many=True).data, status=status.HTTP_200_OK)
         
 

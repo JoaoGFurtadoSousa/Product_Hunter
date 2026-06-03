@@ -40,11 +40,3 @@ def details_the_app_description(description:str):
 
     response = model.invoke(prompt)
     return response
-
-
-# def details_the_app_description(description_app: str):
-#     response = client.models.generate_content(
-#     model = "gemini-3-flash-preview", contents = f"Apresente melhor a descricao digitada a segui em no maximo um paragrafo de três à quatro linhas: {description_app}"
-#     )
-
-#     return response.text

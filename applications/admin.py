@@ -4,6 +4,6 @@ from .models import APP
 
 @admin.register(APP)
 class HashtagsAdmin(admin.ModelAdmin):
-    list_display = ('id', 'name', 'description', 'likes', 'logo_app', 'data_created',)
+    list_display = ('id', 'name', 'description', 'likes', 'logo_app', 'date_created',)
     search_fields = ('name', )
     
