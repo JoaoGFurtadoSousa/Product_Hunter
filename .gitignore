@@ -7,3 +7,5 @@ venv/
 langchain_prompts.db
 
 *.db
+
+media/
