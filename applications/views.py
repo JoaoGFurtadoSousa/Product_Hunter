@@ -47,7 +47,7 @@ class APPView(APIView):
 
 
 class SearchAPPForName(APIView):
-    permission_classes = [IsAuthenticated, ]
+    #permission_classes = [IsAuthenticated, ]
 
     def get(self, request):
         app_search = request.query_params.get('search_app')
