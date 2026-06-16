@@ -9,7 +9,7 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.pagination import PageNumberPagination
 
 class APPView(APIView):
-    permission_classes = [IsAuthenticated, ]
+    #permission_classes = [IsAuthenticated, ]
 
 
     def post(self, request):
@@ -60,7 +60,7 @@ class SearchAPPForName(APIView):
     
 
 class ReturnAppRecentlyView(APIView):
-    permission_classes = [IsAuthenticated, ]
+    #permission_classes = [IsAuthenticated, ]
     
 
     def get(self, request):
