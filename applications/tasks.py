@@ -15,10 +15,13 @@ from .integration_ia import verify_that_the_app_description_is_not_malicious, de
 @shared_task
 def verify_description_is_not_malicious(id: int):
     app = APP.objects.get(id = id)
+    print(app)
     response = verify_that_the_app_description_is_not_malicious(app.description)
+    print(response)
     if response:
         app.description = response 
         app.save()
-    app.delete()
+        return response
+    #app.delete()
 
     
